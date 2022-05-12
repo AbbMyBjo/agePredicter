@@ -1,17 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input v-model="text" placeholder="What is your name?">
+    <button @click="getData()"> Predict your age </button>
+    <p>{{ response }}</p>
   </div>
 </template>
 
+<!-- API: anrop https://api.agify.io/?name=valfrittnamn -->
+
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+import Vue from 'vue';
+
+Vue.prototype.$http = axios;
+
+var posts = '';
+var text = '';
+var link = 'https://api.agify.io/?name=';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data: () => ({
+    posts: '',
+    text: '',
+    link: 'https://api.agify.io/?name=',
+    response: ''
+    }),
+
+  methods: {
+    async getData() { //Gör en get-request till API:n och få tillbaka en dictionary
+      try {
+        let response = await this.$http.get(
+          String(link+text+"/name")
+        );
+        // JSON responses are automatically parsed.
+        this.posts = response.data;
+        console.log(posts);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   }
 }
 </script>
@@ -22,7 +50,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  background-color: #037b77;
+  color: black;
   margin-top: 60px;
 }
 </style>
