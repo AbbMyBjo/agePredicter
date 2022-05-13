@@ -15,13 +15,13 @@ import Vue from 'vue';
 Vue.prototype.$http = axios;
 
 var posts = '';
-var text = '';
+var text = 'Mary';
 var link = 'https://api.agify.io/?name=';
 
 export default {
   data: () => ({
     posts: '',
-    text: '',
+    text: 'Mary',
     link: 'https://api.agify.io/?name=',
     response: ''
     }),
@@ -30,12 +30,12 @@ export default {
     async getData() { //Gör en get-request till API:n och få tillbaka en dictionary
       try {
         let response = await this.$http.get(
-          String(link+text+"/name")
+          String(link+text)
         );
         // JSON responses are automatically parsed.
-        this.posts = response.data;
-        console.log(posts);
-        console.log(response);
+        this.posts = response[0['age']];
+        console.log(typeof(posts), length);
+        // console.log(response);
       } catch (error) {
         console.log(error);
       }
