@@ -3,6 +3,9 @@
     <input :value="this.name" @input="event => this.name = event.target.value" placeholder="What is your name?">
     <button @click="getData()"> predict your name </button>
     <div id="result">
+      <p>
+        {{ resultText(click) }}
+      </p>
       <!-- <p> Your age is {{ age }}</p>
       <p> You are most likely a {{ gender }} </p>
       <p> Your country ID is {{ nationality }} with a probablitiy of {{ natProbability }}% </p>
@@ -17,6 +20,8 @@ import Vue from 'vue'
 
 Vue.prototype.$http = axios
 
+// var click = false
+var rText = ''
 var linkName = ''
 var ageLink = 'https://api.agify.io/?name='
 var natLink = 'https://api.nationalize.io/?name='
@@ -24,7 +29,8 @@ var genLink = 'https://api.genderize.io/?name='
 
 export default {
   data: () => ({
-    buttonText: '',
+    rText: '',
+    click: false,
     name: '',
     age: '0',
     count: '0',
@@ -42,6 +48,7 @@ export default {
 
   methods: {
     async getData () {
+      this.click = true;
       try {
         linkName = this.name
         let ageResponse = await this.$http.get(
@@ -65,12 +72,12 @@ export default {
           this.gender = 'man'
         }  
 
-        if(this.gender && this.age && this.count && this.nationality){
-          this.hideDiv(false)
-        }
-        else{
-          this.hideDiv(true)
-        }
+        // if(this.gender && this.age && this.count && this.nationality){
+        //   this.hideDiv(false)
+        // }
+        // else{
+        //   this.hideDiv(true)
+        // }
 
         return ageResponse, natResponse, genResponse
 
@@ -78,10 +85,14 @@ export default {
         console.log(error)
       }
     },
-    resultText (type){
-      if (!input){
-        text = 'Your age is' + this.age + 'You are most likely a' + this.gender + 'Your country ID is' + this.nationality + 'with a probablitiy of' + this.natProbability + 'Your' + this.name + 'army would contain' + this.count + 'soldiers'
-      } //visa texten när input är 0 och annars visa ngot fint!!!!!
+    resultText (click){
+      if (click){
+        rText = 'Your age is ' + this.age + ' You are most likely a ' + this.gender + ' Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + ' Your ' + this.name + ' army would contain ' + this.count + ' soldiers.'
+      }
+      else if (this.name <= 0){
+        rText = 'Press the button to predict!'
+      }
+      return rText
     }
     // hideDiv (show) {
     //   if (show){
