@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="div"> <!-- Välj ett unikt id till varje komponent för att styla -->
     <h1 id="title">
       AgePredicter
     </h1>
@@ -131,8 +131,8 @@ export default {
 </script>
 
 <style>
-#app {
-  /* Hur ska sidan se ut, designmässigt */
+/* Hur ska sidan se ut, designmässigt */
+#div { 
   width: 100vw;
   height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -146,34 +146,32 @@ export default {
   background-repeat: no-repeat;
   background-size: 100%;
   overflow: hidden;
+  margin: -10px;
 }
 /* Hur ska knappen se ut */
 #button {
   color:rgb(22, 21, 18);
   background-color: rgb(145, 134, 117);
-  /* border-color: aquamarine; */
   margin-left: 1%;
   margin-right: 5%;
   margin-top: 10%;
   margin-bottom: 5%;
-  border-inline-width: 5px;
-  border-block-width: 5px;
-  border-inline-color: rgb(51, 48, 41);
-  border-block-color: rgb(51, 48, 41);  
+  border: 5px double rgb(51, 48, 41);
 }
 /* Hur ska input-rutan se ut */
 #input {
   color: rgb(22, 21, 18);
   background-color: rgb(145, 134, 117);
-  border-inline-width: 5px;
-  border-block-width: 5px;
-  border-inline-color: rgb(51, 48, 41);
-  border-block-color: rgb(51, 48, 41);  
+  border: 5px double rgb(51, 48, 41);
   margin-right: 1%;
   margin-left: 5%;
   margin-top: 5%;
   margin-bottom: 5%;
   outline: none;
+}
+/* Färg på placeholder (texten i input-rutan innan man skriver där) */
+::placeholder { 
+  color: rgb(22, 21, 18);
 }
 /* Hur ska texten se ut */
 #result {
@@ -184,19 +182,13 @@ export default {
   margin-top:5%;
   margin-left:30%;
   margin-right:30%;
-  border-radius: 20%;
   text-align: center;
   padding: 5px;
-  border-width: 5px;
-  border-color: red;
+  border: 15px double rgb(51, 48, 41);
 }
+/* Hur ska titeln på sidan se ut? */
 #title {
   color:rgb(51, 48, 41);
   margin-right: 1000px;
 }
-
-/* #temp {
-  color:aquamarine;
-  background-color: aqua;
-} */
 </style>
