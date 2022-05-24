@@ -14,9 +14,8 @@
       <p> {{ this.genMsg }} </p>
       <p> {{ this.natMsg }} </p>
       <p> {{ this.armyMsg }} </p>
-      <div class="loader">
-      </div>
     </div>
+    <div id="loader"></div>
   </div>
 </template>
 
@@ -35,12 +34,12 @@ var genLink = 'https://api.genderize.io/?name='
 export default {
   data: () => ({
     ohNo: true,
+    click: false,
     clickMsg: '',
     ageMsg: '',
     genMsg: '',
     natMsg: '',
     armyMsg: '',
-    click: false,
     name: '',
     age: '0',
     count: '0',
@@ -58,6 +57,7 @@ export default {
 
   methods: {
     async getData () {
+      this.showResultOrNot(false)
       this.click = true //Knappen har blivit tryckt på
       try {
         linkName = this.name //lokal variabel till name
@@ -83,20 +83,17 @@ export default {
         else if (genResponse['data']['gender'] == 'male') {
           this.gender = 'man'
         }
-        // if(this.gender && this.age && this.count && this.nationality){
-        //   this.hideDiv(false)
-        // }
-        // else{
-        //   this.hideDiv(true)
-        // }
+
         this.ohNo = false //Inget error finns i nuläget
-        return ageResponse, natResponse, genResponse //returnera ålder, nationalitet och könstillhörighet
+        // return ageResponse, natResponse, genResponse //returnera ålder, nationalitet och könstillhörighet
 
       } catch (error) { //om det blir ett error, skriv det i terminalen (console) på hemsidan
         this.ohNo = true
         console.log(error)
         console.log(ohNo)
       }
+
+      this.showResultOrNot(true)
     },
     reload () {
       window.location.reload()
@@ -105,35 +102,38 @@ export default {
       if (click) { //om den blivit klickad på
         if (this.ohNo) {
           this.ageMsg = 'Something went wrong, try another name!',
-            this.genMsg = ' ',
-            this.natMsg = ' ',
-            this.armyMsg = ' ',
-            this.clickMsg = 'Try again!'
+          this.genMsg = ' ',
+          this.natMsg = ' ',
+          this.armyMsg = ' ',
+          this.clickMsg = 'Try again!'
         }
         else {
-          this.ageMsg = 'Your age is ' + this.age,
-            this.genMsg = 'You are most likely a ' + this.gender,
-            this.natMsg = 'Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + '%',
-            this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.',
-            this.clickMsg = 'Refresh!'
+          this.ageMsg = 'Your age is ' + this.age
+          this.genMsg = 'You are most likely a ' + this.gender
+          this.natMsg = 'Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + '%'
+          this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.'
+          this.clickMsg = 'Refresh!'
         }
       }
       else { //om den inte blivit klickad på
         this.ageMsg = 'Press the button to predict!',
-          this.genMsg = ' ',
-          this.natMsg = ' ',
-          this.armyMsg = ' ',
-          this.clickMsg = 'Predict your age!'
+        this.genMsg = ' ',
+        this.natMsg = ' ',
+        this.armyMsg = ' ',
+        this.clickMsg = 'Predict your age!'
       }
     },
-    // hideDiv (show) {
-    //   if (show){
-    //     document.getElementById("result").style.display = 'none';
-    //   }
-    //   else{
-    //     document.getElementById("result").style.display = 'block';
-    //   }
-    // }
+    showResultOrNot (show) {
+      console.log(show)
+      if (show) {
+        document.getElementById("result").style.display = 'block';
+        document.getElementById("loader").style.display = 'none';
+      }
+      else {
+        document.getElementById("result").style.display = 'none';
+        document.getElementById("loader").style.display = 'block';
+      }
+    }
   }
 }
 </script>
@@ -210,15 +210,19 @@ export default {
   margin-right: 85%;
 }
 
-.loader {
+#loader {
   border: 16px solid #f3f3f3;
-  /* Light grey */
-  border-top: 16px solid #3498db;
-  /* Blue */
+  border-top: 16px solid rgb(22, 21, 18);
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   animation: spin 2s linear infinite;
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  z-index: 1;
+  margin: -76px 0 0 -76px;
+  -webkit-animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
