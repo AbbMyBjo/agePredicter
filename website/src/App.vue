@@ -1,16 +1,21 @@
 <template>
-  <div id="div"> <!-- Välj ett unikt id till varje komponent för att styla -->
-    <h1 id="title">
+  <div id="div">
+    <!-- Välj ett unikt id till varje komponent för att styla -->
+    <button id="title" @click="reload()">
       AgePredicter
-    </h1>
-    <input id="input" :value="this.name" @input="event => this.name = event.target.value" placeholder="What is your name?">
+    </button>
+    <br>
+    <input id="input" :value="this.name" @input="event => this.name = event.target.value"
+      placeholder="What is your name?">
     <button id="button" @click="getData()"> {{ clickMsg }} </button>
     <div id="result">
-      {{ resultText(click) }}
+      {{ resultText(this.click) }}
       <p> {{ this.ageMsg }} </p>
       <p> {{ this.genMsg }} </p>
       <p> {{ this.natMsg }} </p>
       <p> {{ this.armyMsg }} </p>
+      <div class="loader">
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +26,7 @@ import Vue from 'vue'
 
 Vue.prototype.$http = axios
 
-var ohNo = false
+var ohNo = true
 var linkName = ''
 var ageLink = 'https://api.agify.io/?name='
 var natLink = 'https://api.nationalize.io/?name='
@@ -29,8 +34,8 @@ var genLink = 'https://api.genderize.io/?name='
 
 export default {
   data: () => ({
-    ohNo: false,
-    clickMsg: 'Predict your name!',
+    ohNo: true,
+    clickMsg: '',
     ageMsg: '',
     genMsg: '',
     natMsg: '',
@@ -53,6 +58,7 @@ export default {
 
   methods: {
     async getData () {
+      this.click = true //Knappen har blivit tryckt på
       try {
         linkName = this.name //lokal variabel till name
         let ageResponse = await this.$http.get( //API-anrop för ålder
@@ -83,41 +89,43 @@ export default {
         // else{
         //   this.hideDiv(true)
         // }
-        this.click = true //knappen har blivit tryckt på
-        this.ohNo = false
+        this.ohNo = false //Inget error finns i nuläget
         return ageResponse, natResponse, genResponse //returnera ålder, nationalitet och könstillhörighet
 
       } catch (error) { //om det blir ett error, skriv det i terminalen (console) på hemsidan
-        console.log(error)
         this.ohNo = true
+        console.log(error)
         console.log(ohNo)
       }
+    },
+    reload () {
+      window.location.reload()
     },
     resultText (click) { //Beroende på om knappen blivit klickad, skriv ut text
       if (click) { //om den blivit klickad på
         if (this.ohNo) {
           this.ageMsg = 'Something went wrong, try another name!',
-          this.genMsg = ' ',
-          this.natMsg = ' ',
-          this.armyMsg = ' ',
-          this.clickMsg = 'Try again!'
+            this.genMsg = ' ',
+            this.natMsg = ' ',
+            this.armyMsg = ' ',
+            this.clickMsg = 'Try again!'
         }
         else {
           this.ageMsg = 'Your age is ' + this.age,
-          this.genMsg = 'You are most likely a ' + this.gender,
-          this.natMsg = 'Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + '%',
-          this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.',
-          this.clickMsg = 'Refresh!'
+            this.genMsg = 'You are most likely a ' + this.gender,
+            this.natMsg = 'Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + '%',
+            this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.',
+            this.clickMsg = 'Refresh!'
         }
       }
       else { //om den inte blivit klickad på
         this.ageMsg = 'Press the button to predict!',
-        this.genMsg = ' ',
-        this.natMsg = ' ',
-        this.armyMsg = ' ',
-        this.clickMsg = 'Predict your name!'
+          this.genMsg = ' ',
+          this.natMsg = ' ',
+          this.armyMsg = ' ',
+          this.clickMsg = 'Predict your age!'
       }
-    }
+    },
     // hideDiv (show) {
     //   if (show){
     //     document.getElementById("result").style.display = 'none';
@@ -132,7 +140,7 @@ export default {
 
 <style>
 /* Hur ska sidan se ut, designmässigt */
-#div { 
+#div {
   width: 100vw;
   height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -140,7 +148,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color:blanchedalmond;
+  background-color: blanchedalmond;
   color: black;
   background-image: url('C:/utveckling/agePredicter/website/src/assets/crowd.png');
   background-repeat: no-repeat;
@@ -148,9 +156,10 @@ export default {
   overflow: hidden;
   margin: -10px;
 }
+
 /* Hur ska knappen se ut */
 #button {
-  color:rgb(22, 21, 18);
+  color: rgb(22, 21, 18);
   background-color: rgb(145, 134, 117);
   margin-left: 1%;
   margin-right: 5%;
@@ -158,6 +167,7 @@ export default {
   margin-bottom: 5%;
   border: 5px double rgb(51, 48, 41);
 }
+
 /* Hur ska input-rutan se ut */
 #input {
   color: rgb(22, 21, 18);
@@ -169,26 +179,55 @@ export default {
   margin-bottom: 5%;
   outline: none;
 }
+
 /* Färg på placeholder (texten i input-rutan innan man skriver där) */
-::placeholder { 
+::placeholder {
   color: rgb(22, 21, 18);
 }
+
 /* Hur ska texten se ut */
 #result {
   align-content: center;
   align-self: center;
-  color:22, 21, 18;
+  color: 22, 21, 18;
   background-color: rgb(145, 134, 117);
-  margin-top:5%;
-  margin-left:30%;
-  margin-right:30%;
+  margin-top: 5%;
+  margin-left: 30%;
+  margin-right: 30%;
   text-align: center;
   padding: 5px;
   border: 15px double rgb(51, 48, 41);
 }
+
 /* Hur ska titeln på sidan se ut? */
 #title {
-  color:rgb(51, 48, 41);
-  margin-right: 1000px;
+  color: rgb(51, 48, 41);
+  background-color: transparent;
+  width: 250px;
+  height: 75px;
+  font-size: 200%;
+  border: none;
+  margin-right: 85%;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #3498db;
+  /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
