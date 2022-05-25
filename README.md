@@ -13,5 +13,5 @@ De API:er som anropas är:
 
 Till att börja med gjorde jag en grundläggande kod för Agify API:n. Där anropades API:n med namnet som matades in i input, och den returnerade en ålder. 
 
-# Språk oh framework
+# Språk och framework
 De språk som används är HTML, JavaScript och CSS. Till detta används ramverket Vue version 2
