@@ -11,3 +11,4 @@ De API:er som anropas är:
 * Genderize (https://genderize.io/)
 * Nationalize (https://nationalize.io/)
 
+Till att börja med gjorde jag en grundläggande kod för Agify API:n. Där anropades API:n med namnet som matades in i input, och den returnerade en ålder. 
