@@ -20,7 +20,7 @@
       <p> {{ this.natMsg }} </p>
       <p> {{ this.armyMsg }} </p>
     </div>
-    <!-- Beroende på getData() visas antingen resultatet (ovan) eller en "laddar"-ikon (nedan) -->
+    <!-- Beroende på getData() visas antingen resultatet (ovan) eller "laddar"-indikatorn (nedan) -->
     <div id="loader"></div>
   </div>
 </template>
@@ -37,6 +37,8 @@ var linkName = ''
 var ageLink = 'https://api.agify.io/?name='
 var natLink = 'https://api.nationalize.io/?name='
 var genLink = 'https://api.genderize.io/?name='
+var countryLink = 'https://restcountries.com/v2/alpha/'
+// var flagLink = 'https://countryflagsapi.com/png/'
 
 export default {
   data: () => ({
@@ -53,19 +55,24 @@ export default {
     count: '0',
     gender: '?',
     nationality: '?',
+    country: '',
+    countryID: '',
     linkName: '',
     natProbability: 0,
     ageLink: 'https://api.agify.io/?name=',
     natLink: 'https://api.nationalize.io/?name=',
     genLink: 'https://api.genderize.io/?name=',
+    countryLink: 'https://restcountries.com/v2/alpha/',
+    // flagLink: 'https://countryflagsapi.com/png/',
     ageResponse: '',
     natResponse: '',
-    genResponse: ''
+    genResponse: '',
+    countryResponse: ''
   }),
 
   methods: {
     async getData () { //Anropar API:er och definierar samt tolkar svaren
-      this.showResult(false) //"Laddar"-ikonen dyker upp här
+      this.showResult(false) //"Laddar"-indikatorn visas här
       this.click = true //Knappen har blivit tryckt på
       try {
         linkName = this.name //lokal variabel till name från input
@@ -81,9 +88,46 @@ export default {
 
         //få ut rätt värde från API:ernas svar (response), istället för ett helt dictionary
         this.age = ageResponse['data']['age']
-        this.nationality = natResponse['data']['country'][0]['country_id']
         this.count = Math.round(ageResponse['data']['count'])
         this.natProbability = Math.round((natResponse['data']['country'][0]['probability']) * 100)
+
+        //Ändra från landets ID till landets namn och flagga
+        this.countryID = natResponse['data']['country'][0]['country_id']
+        let countryResponse = await this.$http.get( //API-anrop för landsnamn
+          countryLink + this.countryID
+        )
+        // {"name":"Sweden",
+        // "topLevelDomain":[".se"],
+        // "alpha2Code":"SE",
+        // "alpha3Code":"SWE",
+        // "callingCodes":["46"],
+        // "capital":"Stockholm",
+        // "altSpellings":["SE","Kingdom of Sweden","Konungariket Sverige"],
+        // "subregion":"Northern Europe",
+        // "region":"Europe",
+        // "population":10353442,
+        // "latlng":[62.0,15.0],
+        // "demonym":"Swedish",
+        // "area":450295.0,
+        // "gini":30.0,
+        // "timezones":["UTC+01:00"],
+        // "borders":["FIN","NOR"],
+        // "nativeName":"Sverige",
+        // "numericCode":"752",
+        // "flags":{"svg":"https://flagcdn.com/se.svg",
+        // "png":"https://flagcdn.com/w320/se.png"},
+        // "currencies":[{"code":"SEK","name":"Swedish krona","symbol":"kr"}],
+        // "languages":[{"iso639_1":"sv","iso639_2":"swe","name":"Swedish","nativeName":"svenska"}],
+        // "translations":{"br":"Suécia","pt":"Suécia","nl":"Zweden","hr":"Švedska","fa":"سوئد","de":"Schweden","es":"Suecia","fr":"Suède","ja":"スウェーデン","it":"Svezia","hu":"Svédország"},
+        // "flag":"https://flagcdn.com/se.svg",
+        // "regionalBlocs":[{"acronym":"EU",
+        // "name":"European Union"}],
+        // "cioc":"SWE",
+        // "independent":true} 
+
+        this.country = countryResponse["name"]
+        console.log(this.country)
+        console.log(this.countryID)
         
         //byt ut "female" och "male" mot "woman" och "man"
         if (genResponse['data']['gender'] == 'female') { 
@@ -100,12 +144,12 @@ export default {
         console.log(error)
       }
 
-      this.showResult(true) //Nu får resultatet visas och "laddar"-ikonen göms
+      this.showResult(true) //Nu får resultatet visas och "laddar"-indikatorn göms
     },
     reload () {
       window.location.reload() //Laddar om sidan
     },
-    resultText (click) { //Beroende på om knappen blivit klickad, skriv ut text
+    resultText (click) { //Beroende på om knappen blivit intryckt, skriv ut text
       if (click) { //Om knappen använts (blivit klickad på)
         if (this.ohNo) { //Om det finns ett error
           this.ageMsg = 'Something went wrong, try another name!',
@@ -130,7 +174,7 @@ export default {
         this.clickMsg = 'Predict your age!'
       }
     },
-    showResult (show) { //Bestämmer om resultat eller en "laddar"-ikon ska visas
+    showResult (show) { //Bestämmer om resultat eller en "laddar"-indikator ska visas
       if (show) { //Om show är true
         document.getElementById("result").style.display = 'block'; //Visa "result"
         document.getElementById("loader").style.display = 'none'; //Göm "loader"
@@ -216,7 +260,7 @@ export default {
   margin-right: 85%;
 }
 
-/* Hur ska "laddar"-ikonen se ut */
+/* Hur ska "laddar"-indikatorn se ut */
 #loader {
   border: 16px solid #f3f3f3;
   border-top: 16px solid rgb(22, 21, 18);
