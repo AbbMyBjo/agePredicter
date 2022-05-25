@@ -1,31 +1,38 @@
 <template>
   <div id="div">
-    <!-- Välj ett unikt id till varje komponent för att styla -->
+  <!-- anropar funktionen reload() -->
     <button id="title" @click="reload()">
       AgePredicter
     </button>
     <br>
+    <!-- Input, det som matas in sparas i variabeln "name" -->
     <input id="input" :value="this.name" @input="event => this.name = event.target.value"
-      placeholder="What is your name?">
+      placeholder="What is your name?"> <!-- När inget matats in står detta -->
+
+    <!-- Anropar funktionen getData() och har en text på sig som bestäms av clickMsg som beror av funktionen resultText() -->
     <button id="button" @click="getData()"> {{ clickMsg }} </button>
+    <!-- Olika text beroende på funktionen resultText() -->
     <div id="result">
       {{ resultText(this.click) }}
+      <!-- Varje variabel nedan beror på funktionen ovan -->
       <p> {{ this.ageMsg }} </p>
       <p> {{ this.genMsg }} </p>
       <p> {{ this.natMsg }} </p>
       <p> {{ this.armyMsg }} </p>
     </div>
+    <!-- Beroende på getData() visas antingen resultatet (ovan) eller en "laddar"-ikon (nedan) -->
     <div id="loader"></div>
   </div>
 </template>
 
 <script>
+// Importera allt nödvändigt
 import axios from 'axios'
 import Vue from 'vue'
 
 Vue.prototype.$http = axios
 
-var ohNo = true
+// De variabler som behöver definieras
 var linkName = ''
 var ageLink = 'https://api.agify.io/?name='
 var natLink = 'https://api.nationalize.io/?name='
@@ -33,6 +40,7 @@ var genLink = 'https://api.genderize.io/?name='
 
 export default {
   data: () => ({
+    // Alla variabler som används i skriptet
     ohNo: true,
     click: false,
     clickMsg: '',
@@ -56,12 +64,12 @@ export default {
   }),
 
   methods: {
-    async getData () {
-      this.showResultOrNot(false)
+    async getData () { //Anropar API:er och definierar samt tolkar svaren
+      this.showResult(false) //"Laddar"-ikonen dyker upp här
       this.click = true //Knappen har blivit tryckt på
       try {
-        linkName = this.name //lokal variabel till name
-        let ageResponse = await this.$http.get( //API-anrop för ålder
+        linkName = this.name //lokal variabel till name från input
+        let ageResponse = await this.$http.get( //API-anrop för ålder med länk och inmatat namn
           ageLink + linkName
         )
         let genResponse = await this.$http.get( //API-anrop för könstillhörighet
@@ -71,13 +79,14 @@ export default {
           natLink + linkName
         )
 
-        //få ut rätt värde från response, istället för ett helt dictionary
+        //få ut rätt värde från API:ernas svar (response), istället för ett helt dictionary
         this.age = ageResponse['data']['age']
         this.nationality = natResponse['data']['country'][0]['country_id']
         this.count = Math.round(ageResponse['data']['count'])
         this.natProbability = Math.round((natResponse['data']['country'][0]['probability']) * 100)
-
-        if (genResponse['data']['gender'] == 'female') { //byt ut "female" och "male" mot "woman" och "man" för att få det mindre nedvärderande
+        
+        //byt ut "female" och "male" mot "woman" och "man"
+        if (genResponse['data']['gender'] == 'female') { 
           this.gender = 'woman'
         }
         else if (genResponse['data']['gender'] == 'male') {
@@ -85,29 +94,27 @@ export default {
         }
 
         this.ohNo = false //Inget error finns i nuläget
-        // return ageResponse, natResponse, genResponse //returnera ålder, nationalitet och könstillhörighet
 
-      } catch (error) { //om det blir ett error, skriv det i terminalen (console) på hemsidan
-        this.ohNo = true
+      } catch (error) { //om det blir ett error, skriv vad i terminalen (console) på hemsidan
+        this.ohNo = true //det finns ett error
         console.log(error)
-        console.log(ohNo)
       }
 
-      this.showResultOrNot(true)
+      this.showResult(true) //Nu får resultatet visas och "laddar"-ikonen göms
     },
     reload () {
-      window.location.reload()
+      window.location.reload() //Laddar om sidan
     },
     resultText (click) { //Beroende på om knappen blivit klickad, skriv ut text
-      if (click) { //om den blivit klickad på
-        if (this.ohNo) {
+      if (click) { //Om knappen använts (blivit klickad på)
+        if (this.ohNo) { //Om det finns ett error
           this.ageMsg = 'Something went wrong, try another name!',
           this.genMsg = ' ',
           this.natMsg = ' ',
           this.armyMsg = ' ',
           this.clickMsg = 'Try again!'
         }
-        else {
+        else { //Om det inte finns ett error
           this.ageMsg = 'Your age is ' + this.age
           this.genMsg = 'You are most likely a ' + this.gender
           this.natMsg = 'Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + '%'
@@ -115,7 +122,7 @@ export default {
           this.clickMsg = 'Refresh!'
         }
       }
-      else { //om den inte blivit klickad på
+      else { //Om knappen inte använts
         this.ageMsg = 'Press the button to predict!',
         this.genMsg = ' ',
         this.natMsg = ' ',
@@ -123,15 +130,14 @@ export default {
         this.clickMsg = 'Predict your age!'
       }
     },
-    showResultOrNot (show) {
-      console.log(show)
-      if (show) {
-        document.getElementById("result").style.display = 'block';
-        document.getElementById("loader").style.display = 'none';
+    showResult (show) { //Bestämmer om resultat eller en "laddar"-ikon ska visas
+      if (show) { //Om show är true
+        document.getElementById("result").style.display = 'block'; //Visa "result"
+        document.getElementById("loader").style.display = 'none'; //Göm "loader"
       }
-      else {
-        document.getElementById("result").style.display = 'none';
-        document.getElementById("loader").style.display = 'block';
+      else { //Om show är false
+        document.getElementById("result").style.display = 'none'; //Göm "result"
+        document.getElementById("loader").style.display = 'block'; //Visa "loader"
       }
     }
   }
@@ -168,7 +174,7 @@ export default {
   border: 5px double rgb(51, 48, 41);
 }
 
-/* Hur ska input-rutan se ut */
+/* Hur ska input se ut */
 #input {
   color: rgb(22, 21, 18);
   background-color: rgb(145, 134, 117);
@@ -180,12 +186,12 @@ export default {
   outline: none;
 }
 
-/* Färg på placeholder (texten i input-rutan innan man skriver där) */
+/* Färg på placeholder (texten i input när den är tom) */
 ::placeholder {
   color: rgb(22, 21, 18);
 }
 
-/* Hur ska texten se ut */
+/* Hur ska texten i result se ut */
 #result {
   align-content: center;
   align-self: center;
@@ -210,6 +216,7 @@ export default {
   margin-right: 85%;
 }
 
+/* Hur ska "laddar"-ikonen se ut */
 #loader {
   border: 16px solid #f3f3f3;
   border-top: 16px solid rgb(22, 21, 18);
@@ -223,6 +230,7 @@ export default {
   z-index: 1;
   margin: -76px 0 0 -76px;
   -webkit-animation: spin 2s linear infinite;
+  display: none;
 }
 
 @keyframes spin {
