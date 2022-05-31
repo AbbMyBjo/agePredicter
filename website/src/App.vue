@@ -8,7 +8,6 @@
     <!-- Input, det som matas in sparas i variabeln "name" -->
     <input id="input" :value="this.name" @input="event => this.name = event.target.value"
       placeholder="What is your name?"> <!-- När inget matats in står detta -->
-
     <!-- Anropar funktionen getData() och har en text på sig som bestäms av clickMsg som beror av funktionen resultText() -->
     <button id="button" @click="getData()"> {{ clickMsg }} </button>
     <!-- Olika text beroende på funktionen resultText() -->
@@ -18,6 +17,7 @@
       <p> {{ this.ageMsg }} </p>
       <p> {{ this.genMsg }} </p>
       <p> {{ this.natMsg }} </p>
+      <img id="flag" src="./assets/standardFlag.jpg" style="max-width: 160px; max-height: 100px" />
       <p> {{ this.armyMsg }} </p>
     </div>
     <!-- Beroende på getData() visas antingen resultatet (ovan) eller "laddar"-indikatorn (nedan) -->
@@ -39,7 +39,7 @@ var ageLink = 'https://api.agify.io/?name='
 var natLink = 'https://api.nationalize.io/?name='
 var genLink = 'https://api.genderize.io/?name='
 var countryLink = 'https://restcountries.com/v2/alpha/'
-// var flagLink = 'https://countryflagsapi.com/png/'
+var flagLink = 'https://countryflagsapi.com/png/'
 
 export default {
   data: () => ({
@@ -59,12 +59,13 @@ export default {
     country: '',
     countryID: '',
     linkName: '',
+    flagUrl: '',
     natProbability: 0,
     ageLink: 'https://api.agify.io/?name=',
     natLink: 'https://api.nationalize.io/?name=',
     genLink: 'https://api.genderize.io/?name=',
     countryLink: 'https://restcountries.com/v2/alpha/',
-    // flagLink: 'https://countryflagsapi.com/png/',
+    flagLink: 'https://countryflagsapi.com/png/',
     ageResponse: '',
     natResponse: '',
     genResponse: '',
@@ -92,16 +93,16 @@ export default {
         this.count = Math.round(ageResponse['data']['count'])
         this.natProbability = Math.round((natResponse['data']['country'][0]['probability']) * 100)
 
-        //Ändra från landets ID till landets namn och flagga
+        //Få landets namn med hjälp av landets ID
         this.countryID = natResponse['data']['country'][0]['country_id']
         let countryResponse = await this.$http.get( //API-anrop för landsnamn
           countryLink + this.countryID
         )
-
         this.country = countryResponse['data']['name']
-        console.log(countryResponse)
-        console.log(this.country)
-        console.log(this.countryID)
+
+        //Få landets flagga med hjälp av landets ID
+        this.flagUrl = flagLink + this.countryID
+        document.getElementById("flag").src = this.flagUrl
         
         //byt ut "female" och "male" mot "woman" och "man"
         if (genResponse['data']['gender'] == 'female') { 
@@ -135,7 +136,7 @@ export default {
         else { //Om det inte finns ett error
           this.ageMsg = 'Your age is ' + this.age
           this.genMsg = 'You are most likely a ' + this.gender
-          this.natMsg = 'Your are from: ' + this.country + ' with a probablitiy of: ' + this.natProbability + '%'
+          this.natMsg = 'Your are from ' + this.country + ' with a probablitiy of ' + this.natProbability + '%'
           this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.'
           this.clickMsg = 'Refresh!'
         }
@@ -187,7 +188,7 @@ export default {
   background-color: rgb(145, 134, 117);
   margin-left: 1%;
   margin-right: 5%;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-bottom: 5%;
   border: 5px double rgb(51, 48, 41);
 }
@@ -215,7 +216,7 @@ export default {
   align-self: center;
   color: 22, 21, 18;
   background-color: rgb(145, 134, 117);
-  margin-top: 5%;
+  margin-top: 1%;
   margin-left: 30%;
   margin-right: 30%;
   text-align: center;
