@@ -1,6 +1,6 @@
 # AgePredicter
-För att starta projektet skrivs "npm run serve" i terminalen då man är i den path som gäller för "website".
-![Exempel på hemsidan](website/src/assets/agePredicter exempel.png)
+![Exempel på hemsidan](https://github.com/AbbMyBjo/agePredicter/blob/main/website/src/assets/agePredicter%20exempel.png)
+För att starta projektet skrivs "npm run serve" i terminalen då man befinner sig i den path som gäller för "website".
 
 ## Introduktion
 I detta projekt har jag skapa en hemsida där jag anropar en API som med hjälp av användarens input, i detta fall ett namn, räknar ut hur gammal användaren är. Till projektet använder jag ramverket Vue.
