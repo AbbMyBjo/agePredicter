@@ -102,7 +102,7 @@ export default {
 
         //Få landets flagga med hjälp av landets ID
         this.flagUrl = flagLink + this.countryID
-        document.getElementById("flag").src = this.flagUrl
+        // document.getElementById("flag").src = this.flagUrl
         
         //byt ut "female" och "male" mot "woman" och "man"
         if (genResponse['data']['gender'] == 'female') { 
@@ -132,6 +132,7 @@ export default {
           this.natMsg = ' ',
           this.armyMsg = ' ',
           this.clickMsg = 'Try again!'
+          document.getElementById("flag").src = "https://earthflag.org/wp-content/uploads/2021/01/flag.png"
         }
         else { //Om det inte finns ett error
           this.ageMsg = 'Your age is ' + this.age
@@ -139,6 +140,7 @@ export default {
           this.natMsg = 'Your are from ' + this.country + ' with a probablitiy of ' + this.natProbability + '%'
           this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.'
           this.clickMsg = 'Refresh!'
+          document.getElementById("flag").src = this.flagUrl
         }
       }
       else { //Om knappen inte använts
