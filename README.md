@@ -34,6 +34,10 @@ De API:er som anropas är:
 * REST Countries (https://restcountries.com/)
 
 ### Starta hemsidan
-Importera alla bibliotek som behövs och se till att npm install körts en gång. För att sedan starta projektet skrivs "npm run serve" i terminalen då man befinner sig i den path som gäller för "website".
+Importera alla bibliotek som behövs och se till att ``npm install`` körts en gång. För att sedan starta projektet skrivs ``npm run serve`` i terminalen då man befinner sig i den path som gäller för "website", ``{mapp}\agePredicter\website``
+
+## Avslutning
+### Konsekvenser
+Tack vare detta projekt kan människor på ett enkelt sätt söka upp information om sina namn och dela med sig av denna med sina vänner. Utöver sina egna namn kan de även söka upp kompisars eller andra personers namn av ren nyfikenhet. Detta kommer bidra till många roliga konversationer som i sin tur för personerna närmare varandra och ger dem glädje.
 
 #### För vidare information se kommentarer i koden
