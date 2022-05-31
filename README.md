@@ -14,6 +14,7 @@ Till att börja med gjorde jag en grundläggande kod för Agify API:n. Där anro
 Efter att ha jobbat i några timmar med detta projekt bestämde jag mig för att utöka det en aning. Nu anropas tre API:er som returnerar ålder, könstillhörighet och en landskod för det land du väntas tillhöra. Allt detta baseras på det inmatade namnet. Då detta också blev klart fortare än tänkt ska jag nu anropa ytterligare en API, REST Countries, som jag använder för att göra om en landskod, som fås från Nationalize Api, till namnet på landet.
 
 Den sista utökningen på projektet är ett anrop till en API som returnerar en flagga baserat på landskoden man skickar med. Innan man matat in ett namn och anropat API:erna visas "Earth flag" på hemsidan, en inernationell flagga. Den internationella flaggan är hämtad från https://earthflag.org/ och visas nedan. 
+
 <img src="https://github.com/AbbMyBjo/agePredicter/blob/main/website/src/assets/standardFlag.jpg" alt="Earth Flag" width="200"/>
 
 ## Programmering
