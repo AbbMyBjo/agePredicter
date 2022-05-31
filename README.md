@@ -24,7 +24,7 @@ Bibliotek som används:
 * Vue (https://vuejs.org/)
 * Axios (https://axios-http.com/docs/intro)
 
-Till detta användes det JavaScript-baserade ramverket Vue, version 2.
+Till detta användes det JavaScript-baserade ramverket Vue, version 2. Ramverket valdes då det är bra att göra hemsidor i.
 
 ### Backend
 De API:er som anropas är:
