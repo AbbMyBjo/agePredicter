@@ -29,3 +29,5 @@ De API:er som anropas är:
 * Genderize (https://genderize.io/)
 * Nationalize (https://nationalize.io/)
 * REST Countries (https://restcountries.com/)
+
+### För vidare information se kommentarer i koden
