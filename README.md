@@ -16,13 +16,13 @@ Efter att ha jobbat i några timmar med detta projekt bestämde jag mig för att
 ## Programmering
 ### Frontend
 Språk som används: 
-* HTML
-* JavaScript
-* CSS
+* HTML (https://sv.wikipedia.org/wiki/HTML)
+* JavaScript (https://sv.wikipedia.org/wiki/Javascript)
+* CSS (https://en.wikipedia.org/wiki/CSS)
 
 Bibliotek som används:
-* Vue 
-* Axios
+* Vue (https://vuejs.org/)
+* Axios (https://axios-http.com/docs/intro)
 
 Till detta användes det JavaScript-baserade ramverket Vue, version 2.
 
