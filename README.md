@@ -10,12 +10,12 @@ Efter att ha jobbat i några timmar med detta projekt bestämde jag mig för att
 Till att börja med gjorde jag en grundläggande kod för Agify API:n. Där anropades API:n med namnet som matades in i input, och den returnerade en ålder. När det var klart låg fokus på att få det snyggt. Efter att ha fått ett okej utseende på sidan fortsatte jag med resterande API:er och felhantering samt en "laddar"-indikator.
 
 # Frontend
-Språk som använts: 
+Språk som används: 
 * HTML
 * JavaScript
 * CSS. 
 
-Bibliotek som använts:
+Bibliotek som används:
 * Vue 
 * Axios
 
