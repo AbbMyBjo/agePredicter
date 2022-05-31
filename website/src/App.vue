@@ -30,6 +30,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 
+// Gör det möjligt att enkelt använda .get funktioner m.m.
 Vue.prototype.$http = axios
 
 // De variabler som behöver definieras
@@ -96,36 +97,9 @@ export default {
         let countryResponse = await this.$http.get( //API-anrop för landsnamn
           countryLink + this.countryID
         )
-        // {"name":"Sweden",
-        // "topLevelDomain":[".se"],
-        // "alpha2Code":"SE",
-        // "alpha3Code":"SWE",
-        // "callingCodes":["46"],
-        // "capital":"Stockholm",
-        // "altSpellings":["SE","Kingdom of Sweden","Konungariket Sverige"],
-        // "subregion":"Northern Europe",
-        // "region":"Europe",
-        // "population":10353442,
-        // "latlng":[62.0,15.0],
-        // "demonym":"Swedish",
-        // "area":450295.0,
-        // "gini":30.0,
-        // "timezones":["UTC+01:00"],
-        // "borders":["FIN","NOR"],
-        // "nativeName":"Sverige",
-        // "numericCode":"752",
-        // "flags":{"svg":"https://flagcdn.com/se.svg",
-        // "png":"https://flagcdn.com/w320/se.png"},
-        // "currencies":[{"code":"SEK","name":"Swedish krona","symbol":"kr"}],
-        // "languages":[{"iso639_1":"sv","iso639_2":"swe","name":"Swedish","nativeName":"svenska"}],
-        // "translations":{"br":"Suécia","pt":"Suécia","nl":"Zweden","hr":"Švedska","fa":"سوئد","de":"Schweden","es":"Suecia","fr":"Suède","ja":"スウェーデン","it":"Svezia","hu":"Svédország"},
-        // "flag":"https://flagcdn.com/se.svg",
-        // "regionalBlocs":[{"acronym":"EU",
-        // "name":"European Union"}],
-        // "cioc":"SWE",
-        // "independent":true} 
 
-        this.country = countryResponse["name"]
+        this.country = countryResponse['data']['name']
+        console.log(countryResponse)
         console.log(this.country)
         console.log(this.countryID)
         
@@ -161,7 +135,7 @@ export default {
         else { //Om det inte finns ett error
           this.ageMsg = 'Your age is ' + this.age
           this.genMsg = 'You are most likely a ' + this.gender
-          this.natMsg = 'Your country ID is: ' + this.nationality + ' with a probablitiy of: ' + this.natProbability + '%'
+          this.natMsg = 'Your are from: ' + this.country + ' with a probablitiy of: ' + this.natProbability + '%'
           this.armyMsg = 'Your ' + this.linkName + ' army would contain ' + this.count + ' soldiers.'
           this.clickMsg = 'Refresh!'
         }
