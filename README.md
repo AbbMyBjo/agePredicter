@@ -3,7 +3,7 @@
 
 ## Introduktion
 ### Problemformulering
-I detta projekt har jag skapa en hemsida där jag anropar en API som med hjälp av användarens input, i detta fall ett namn, räknar ut hur gammal användaren är. Med denna hemsida kommer folk kunna ta reda på rolig information om sina namn och andras.
+I detta projekt har jag skapa en hemsida där jag anropar en API som med hjälp av användarens input, i detta fall ett namn, räknar ut hur gammal användaren är med mera. Med denna hemsida kommer folk kunna ta reda på rolig information om sina namn och andras.
 
 ### Planering
 Planen var att skapa ett Vue-projekt och ta bort alla onödiga features, de jag inte behöver. Efter det gör jag en enkel input och en ”send”-knapp där man får mata in sitt namn. När man klickar på ”send” anropas API:n med det inmatade namnet som värde, med en GET-request. API:n skickar tillbaka den uträknade åldern som jag visar på hemsidan i ett snyggt format.
@@ -43,6 +43,9 @@ Importera alla bibliotek som behövs och se till att ``npm install`` körts en g
 
 ## Avslutning
 ### Konsekvenser
-Tack vare detta projekt kan människor på ett enkelt sätt söka upp information om sina namn och dela med sig av denna med sina vänner. Utöver sina egna namn kan de även söka upp kompisars eller andra personers namn av ren nyfikenhet. Detta kommer bidra till många roliga konversationer som i sin tur för personerna närmare varandra och ger dem glädje. Ett annat anvädningsområde för hemsidan är inlärning av flaggor och landstypiska namn, på ett roligt och stimulerande sätt.
+Tack vare detta projekt kan människor på ett enkelt sätt söka upp information om sina namn och dela med sig av denna med sina vänner. Utöver sina egna namn kan de även söka upp kompisars eller andra personers namn av ren nyfikenhet. Detta kommer bidra till många roliga konversationer som i sin tur för personerna närmare varandra och ger dem glädje. Ett annat anvädningsområde för hemsidan är inlärning av flaggor och landstypiska namn, på ett roligt och stimulerande sätt. Förutom att människor kan använda hemsidan som programmerats kan de även bygga vidare på och utveckla den mer, eller lära sig programmera genom att gå igenom koden för den.
+
+### Resultat
+Projektet gick bättre än väntat med endast ett fåtal svårlösta problem. Jag har lärt mig mer om Vue och axios, samtidigt som jag utfört ett lyckat programmeringsprojekt. Den ursprungliga planen uppnåddes snabbt och dessutom kunde projektet utökas mycket mer än planerat, vilket gjorde det ännu roligare.
 
 #### För vidare information se kommentarer i koden
